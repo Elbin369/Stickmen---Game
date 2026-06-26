@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Shadow Defender: Stickman Tower Defense</title>
+    <!-- Google Fonts for premium typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;800&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div id="wrapper">
+        <div id="game-container">
+            <!-- 75% Gameplay Area -->
+            <div id="gameplay-area">
+                <canvas id="game-canvas"></canvas>
+                
+                <!-- HUD Top Overlay -->
+                <div id="hud-top">
+                    <!-- Top Left: Health Bar -->
+                    <div id="hud-health">
+                        <div class="heart-icon">
+                            <svg viewBox="0 0 24 24" width="24" height="24">
+                                <path fill="#ff3333" d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                            </svg>
+                        </div>
+                        <div class="health-bar-container">
+                            <span class="health-label">Tower Health</span>
+                            <div class="health-bar-track">
+                                <div id="health-bar-fill" style="width: 100%;"></div>
+                            </div>
+                            <span id="health-text">100/100</span>
+                        </div>
+                    </div>
+
+                    <!-- Top Right: Wave Counter & Pause -->
+                    <div id="hud-stats">
+                        <div class="stat-box">
+                            <div id="wave-number">WAVE 1</div>
+                            <div id="enemies-remaining">Enemies Left: 0</div>
+                        </div>
+                        <button id="pause-btn" class="ui-btn">
+                            <svg viewBox="0 0 24 24" width="16" height="16">
+                                <path fill="currentColor" d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 25% Bottom Control Board (Ground theme) -->
+            <div id="control-board">
+                <!-- Bottom Left: Virtual Joystick (for mobile or mouse-drag aim) -->
+                <div id="joystick-container">
+                    <div id="joystick-ring">
+                        <div id="joystick-arrows">
+                            <span class="arrow up">▲</span>
+                            <span class="arrow left">◀</span>
+                            <span class="arrow right">▶</span>
+                            <span class="arrow down">▼</span>
+                        </div>
+                        <div id="joystick-stick"></div>
+                    </div>
+                </div>
+
+                <!-- Bottom Center: Skill Bars -->
+                <div id="skills-container">
+                    <!-- Gatling Gun -->
+                    <div class="skill-slot active" id="skill-gatling" data-skill="gatling">
+                        <div class="skill-icon-wrapper">
+                            <svg class="skill-icon" viewBox="0 0 24 24">
+                                <path fill="currentColor" d="M2,9h3v6H2V9M6,9h12v1H6V9m0,3h12v1H6v-1m0,3h12v1H6v-1m13-6h3v6h-3V9Z"/>
+                            </svg>
+                            <div class="cooldown-overlay" id="cooldown-gatling"></div>
+                        </div>
+                        <span class="skill-count">∞</span>
+                        <span class="skill-name">GATLING</span>
+                    </div>
+
+                    <!-- Grenade Launcher -->
+                    <div class="skill-slot" id="skill-grenade" data-skill="grenade">
+                        <div class="skill-icon-wrapper">
+                            <svg class="skill-icon" viewBox="0 0 24 24">
+                                <path fill="currentColor" d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M12,4A2,2 0 0,1 14,6A2,2 0 0,1 12,8A2,2 0 0,1 10,6A2,2 0 0,1 12,4M12,18A6,6 0 0,1 6,12A6,6 0 0,1 12,6V12L16.24,7.76A6,6 0 0,1 18,12A6,6 0 0,1 12,18Z"/>
+                            </svg>
+                            <div class="cooldown-overlay" id="cooldown-grenade"></div>
+                        </div>
+                        <span class="skill-count" id="count-grenade">3</span>
+                        <span class="skill-name">GRENADE</span>
+                    </div>
+
+                    <!-- Arrow Storm -->
+                    <div class="skill-slot" id="skill-arrows" data-skill="arrows">
+                        <div class="skill-icon-wrapper">
+                            <svg class="skill-icon" viewBox="0 0 24 24">
+                                <path fill="currentColor" d="M19.03,3C18.77,3 18.5,3.1 18.3,3.3L15.3,6.3L16.7,7.7L19.7,4.7C20.1,4.3 20.1,3.7 19.7,3.3C19.5,3.1 19.27,3 19.03,3M13.89,7.71L12.47,9.13L13.89,10.54L15.3,9.13L13.89,7.71M11.06,10.54L4,17.6V20H6.4L13.46,12.96L11.06,10.54M17.41,9.13L16,10.54L17.41,11.96L18.83,10.54L17.41,9.13M14.59,11.96L13.17,13.38L14.59,14.8L16,13.38L14.59,11.96Z"/>
+                            </svg>
+                            <div class="cooldown-overlay" id="cooldown-arrows"></div>
+                        </div>
+                        <span class="skill-count" id="count-arrows">2</span>
+                        <span class="skill-name">ARROW STORM</span>
+                    </div>
+
+                    <!-- Heal -->
+                    <div class="skill-slot" id="skill-heal" data-skill="heal">
+                        <div class="skill-icon-wrapper">
+                            <svg class="skill-icon" viewBox="0 0 24 24">
+                                <path fill="currentColor" d="M19,10.5H13.5V5H10.5V10.5H5V13.5H10.5V19H13.5V13.5H19V10.5Z"/>
+                            </svg>
+                            <div class="cooldown-overlay" id="cooldown-heal"></div>
+                        </div>
+                        <span class="skill-count" id="count-heal">2</span>
+                        <span class="skill-name">HEAL</span>
+                    </div>
+                </div>
+
+                <!-- Bottom Right: Shoot Button & Score Panel -->
+                <div id="shoot-score-container">
+                    <div id="score-display">SCORE: <span id="score-value">0</span></div>
+                    <button id="shoot-btn">
+                        <svg viewBox="0 0 24 24" width="36" height="36">
+                            <path fill="#ffffff" d="M12.5,2C10.5,2 8.5,3 7,4.5C5.5,6 4.5,8 4.5,10V18L12.5,22L20.5,18V10C20.5,8 19.5,6 18,4.5C16.5,3 14.5,2 12.5,2M12.5,4C14,4 15.5,4.7 16.5,5.8C17.5,6.9 18.2,8.4 18.4,10H6.6C6.8,8.4 7.5,6.9 8.5,5.8C9.5,4.7 11,4 12.5,4M6.5,12H18.5V13H6.5V12M6.5,15H18.5V16H6.5V15Z"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Start Menu Overlay -->
+            <div id="start-overlay" class="menu-overlay">
+                <div class="menu-content">
+                    <h1 class="game-title">SHADOW DEFENDER</h1>
+                    <p class="game-subtitle">Stickman Tower Defense</p>
+                    
+                    <div class="objective-box">
+                        <h3>OBJECTIVE</h3>
+                        <p>Defend the stone tower against waves of shadow stickmen advancing from both sides.</p>
+                        <ul class="controls-list">
+                            <li><strong>Auto-Aim:</strong> Machine gun automatically shoots the nearest enemy.</li>
+                            <li><strong>Manual Aim:</strong> Click/touch anywhere, drag the <strong>joystick</strong>, or use <strong>WASD / Arrow Keys</strong> to aim.</li>
+                            <li><strong>Shoot:</strong> Click <strong>SHOOT</strong> or press <strong>SPACE</strong>.</li>
+                            <li><strong>Skills:</strong> Use <strong>1, 2, 3, 4</strong> keys or click skill slots to activate.</li>
+                        </ul>
+                    </div>
+
+                    <button id="start-game-btn" class="action-btn">START GAME</button>
+                </div>
+            </div>
+
+            <!-- Game Over Overlay -->
+            <div id="game-over-overlay" class="menu-overlay hidden">
+                <div class="menu-content">
+                    <h1 class="game-over-title">TOWER FALLEN</h1>
+                    <p class="game-subtitle">The shadow army overran your defenses.</p>
+                    
+                    <div class="stats-panel">
+                        <div class="stat-row">
+                            <span>Waves Survived:</span>
+                            <span id="final-waves" class="highlight-val">0</span>
+                        </div>
+                        <div class="stat-row">
+                            <span>Total Score:</span>
+                            <span id="final-score" class="highlight-val">0</span>
+                        </div>
+                        <div class="stat-row">
+                            <span>Enemies Slain:</span>
+                            <span id="final-kills" class="highlight-val">0</span>
+                        </div>
+                    </div>
+
+                    <button id="restart-game-btn" class="action-btn">DEFEND AGAIN</button>
+                </div>
+            </div>
+
+            <!-- Pause Overlay -->
+            <div id="pause-overlay" class="menu-overlay hidden">
+                <div class="menu-content">
+                    <h1 class="pause-title">GAME PAUSED</h1>
+                    <p class="game-subtitle">Defenses are holding...</p>
+                    <button id="resume-game-btn" class="action-btn">RESUME</button>
+                </div>
+            </div>
+
+            <!-- Rotate Device Overlay (Mobile portrait notice) -->
+            <div id="rotate-overlay" class="menu-overlay">
+                <div class="menu-content">
+                    <div class="rotate-icon">
+                        <svg viewBox="0 0 24 24" width="56" height="56">
+                            <path fill="#ff3333" d="M16 17.01V10h-2v7.01h-3L15 21l4-3.99h-3zM9 3L5 6.99h3V14h2V6.99h3L9 3zm8.3-1.3l-1.4 1.4c2.8 2.8 2.8 7.2 0 10l1.4 1.4c3.5-3.5 3.5-9.3 0-12.8zM5.7 19.5l1.4-1.4c-2.8-2.8-2.8-7.2 0-10L5.7 6.7c-3.5 3.5-3.5 9.3 0 12.8z"/>
+                        </svg>
+                    </div>
+                    <h2 class="rotate-title">ROTATE YOUR DEVICE</h2>
+                    <p class="rotate-text">Please rotate your device to landscape mode to play.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Script imports (Modular Sections) -->
+    <script src="js/audio.js"></script>
+    <script src="js/background.js"></script>
+    <script src="js/particles.js"></script>
+    <script src="js/controls.js"></script>
+    <script src="js/entities.js"></script>
+    <script src="js/game.js"></script>
+</body>
+</html>
