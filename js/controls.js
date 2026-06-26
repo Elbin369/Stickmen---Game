@@ -33,6 +33,9 @@ class ControlsManager {
         this.joystickActive = false;
         this.joystickCenter = { x: 0, y: 0 };
         this.joystickMaxDist = 36; // Maximum pixels the stick can move
+        
+        // Auto Aim state
+        this.autoAimEnabled = true; // Enabled by default
     }
 
     /**
@@ -49,6 +52,7 @@ class ControlsManager {
         this.setupJoystick();
         this.setupSkillButtons();
         this.setupShootButton();
+        this.setupAutoAimButton();
     }
 
     /**
@@ -381,6 +385,42 @@ class ControlsManager {
                     overlay.style.height = `${percent}%`;
                 }
             }
+        }
+    }
+
+    /**
+     * Auto Aim Button Setup
+     */
+    setupAutoAimButton() {
+        const autoaimBtn = document.getElementById('autoaim-btn');
+        if (!autoaimBtn) return;
+
+        // Set initial state
+        this.updateAutoAimButtonUI();
+
+        autoaimBtn.addEventListener('click', () => {
+            audio.init();
+            audio.playClick();
+            this.autoAimEnabled = !this.autoAimEnabled;
+            this.updateAutoAimButtonUI();
+        });
+    }
+
+    /**
+     * Update Auto Aim Button UI based on state
+     */
+    updateAutoAimButtonUI() {
+        const autoaimBtn = document.getElementById('autoaim-btn');
+        if (!autoaimBtn) return;
+
+        if (this.autoAimEnabled) {
+            autoaimBtn.classList.remove('autoaim-inactive');
+            autoaimBtn.classList.add('autoaim-active');
+            autoaimBtn.title = 'Auto Aim: ON';
+        } else {
+            autoaimBtn.classList.remove('autoaim-active');
+            autoaimBtn.classList.add('autoaim-inactive');
+            autoaimBtn.title = 'Auto Aim: OFF';
         }
     }
 

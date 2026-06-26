@@ -217,9 +217,9 @@ class GameManager {
             }
         }
 
-        // 3. Auto-Aiming fallback
-        // If joystick/keyboard is idle, target the nearest non-dying enemy
-        if (!controls.joystickActive && !Object.values(controls.keys).some(v => v)) {
+        // 3. Auto-Aiming fallback - Controlled by toggle button
+        // If joystick/keyboard is idle and auto aim is enabled, target the nearest non-dying enemy
+        if (controls.autoAimEnabled && !controls.joystickActive && !Object.values(controls.keys).some(v => v)) {
             let nearestEnemy = null;
             let minDist = Infinity;
             const playerX = 400;

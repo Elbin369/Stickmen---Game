@@ -216,6 +216,33 @@ body {
     box-shadow: 0 0 10px rgba(255, 51, 51, 0.5);
 }
 
+/* Auto Aim Button States */
+#autoaim-btn.autoaim-active {
+    background: rgba(16, 185, 129, 0.2);
+    border-color: #10b981;
+    color: #10b981;
+    box-shadow: 0 0 8px rgba(16, 185, 129, 0.4);
+}
+
+#autoaim-btn.autoaim-active:hover {
+    background: rgba(16, 185, 129, 0.4);
+    box-shadow: 0 0 12px rgba(16, 185, 129, 0.6);
+}
+
+#autoaim-btn.autoaim-inactive {
+    background: rgba(255, 51, 51, 0.15);
+    border-color: #ff3333;
+    color: #ff3333;
+    box-shadow: 0 0 8px rgba(255, 51, 51, 0.3);
+    opacity: 0.6;
+}
+
+#autoaim-btn.autoaim-inactive:hover {
+    background: rgba(255, 51, 51, 0.25);
+    opacity: 1;
+    box-shadow: 0 0 12px rgba(255, 51, 51, 0.5);
+}
+
 /* Joystick HUD Container (Bottom Left) */
 #joystick-container {
     width: 100px;
