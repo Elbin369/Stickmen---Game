@@ -17,7 +17,7 @@ class ControlsManager {
             gatling: { current: 0, max: 0 },
             grenade: { current: 0, max: 120, count: 3 }, // cooldown in frames at 60fps (~2s)
             arrows: { current: 0, max: 300, count: 2 },  // ~5s
-            heal: { current: 0, max: 480, count: 2 }      // ~8s
+            heal: { current: 0, max: 480, count: 3 }      // ~8s
         };
 
         // Key bindings state

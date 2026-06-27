@@ -296,11 +296,11 @@ class GameManager {
         // C. Heal Spell
         if (controls.cast_heal) {
             controls.cast_heal = false;
-            this.tower.heal(25);
+            this.tower.heal(50);
             audio.playHeal();
             
             // Add green sparkle particles rising from doorway
-            for (let i = 0; i < 25; i++) {
+            for (let i = 0; i < 50; i++) {
                 this.particles.particles.push({
                     type: 'smoke', // reusable particle wrapper
                     x: 380 + Math.random() * 40,
